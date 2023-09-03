@@ -172,7 +172,11 @@ require('lazy').setup({
       return vim.fn.executable 'make' == 1
     end,
   },
-
+  {
+    'smartpde/telescope-recent-files'
+  },
+  --Select buffers
+  {"ghillb/cybu.nvim",dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim"}},
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -266,6 +270,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+--  [[Configure cybu]]
+require("cybu").setup()
+vim.keymap.set("n", "øb", "<Plug>(CybuPrev)")
+vim.keymap.set("n", "æb", "<Plug>(CybuNext)")
+vim.keymap.set("n", "<s-tab>", "<plug>(CybuLastusedPrev)")
+vim.keymap.set("n", "<tab>", "<plug>(CybuLastusedNext)")
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -281,7 +292,7 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-
+pcall(require("telescope").load_extension,'recent_files')
 -- Set name of which-key groups
 local wk = require("which-key")
 wk.register({ ["<leader>"] = {
@@ -291,7 +302,8 @@ wk.register({ ["<leader>"] = {
 } })
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
+--vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
+vim.keymap.set("n", "<Leader>+",[[<cmd>lua require('telescope').extensions.recent_files.pick()<CR>]],{ desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
