@@ -288,6 +288,11 @@ require('telescope').setup {
       },
     },
   },
+    pickers = {
+        buffers = {
+          initial_mode = "normal",
+        }
+      }
 }
 
 -- Enable telescope fzf native, if installed
